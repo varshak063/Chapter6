@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: gainsboro;
+  border: 1px solid burlywood;
+}
+
+.logo {
+  width: 100px;
+}
+
+.nav-items > ul {
+  display: flex;
+}
+.nav-items > ul > li {
+  list-style: none;
+  padding: 10px;
+  margin: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.search {
+  display: flex;
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+}
+input {
+  width: 500px;
+  height: 34px;
+}
+button {
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+}
+.restro-card {
+  width: 200px;
+  height: 350px;
+  padding: 10px;
+  margin: 10px;
+  word-wrap: break-word;
+}
+.restro-card:hover {
+  border: 1px solid black;
+  cursor: pointer;
+}
+.restro-imgItem {
+  width: 100%;
+}
+.restro-container {
+  display: flex;
+  flex-wrap: wrap;
+}
