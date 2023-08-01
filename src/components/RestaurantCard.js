@@ -5,10 +5,9 @@ const styleCard = {
   backgroundColor: "#ececec",
 };
 export const RestaurantCard = (props) => {
-  console.log("Props", props);
   const { restoData } = props;
   const { cloudinaryImageId, name, cuisines, avgRating, deliveryTime } =
-    restoData?.data;
+    restoData;
   return (
     <>
       <div className="restro-card" style={styleCard}>

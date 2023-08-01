@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RestaurantCard } from "./RestaurantCard";
-import { cardLists } from "../utils/mockData";
 export const Body = () => {
   //State Variable in React
-  const [fakeRestroDataList, setFakeRestroDataList] = useState(cardLists);
-  //normal JS
+  const [fakeRestroDataList, setFakeRestroDataList] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  // console.log("before return");
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.5203896&lng=73.8567005&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    // console.log(json);
+    setFakeRestroDataList(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+  };
+  console.log(fakeRestroDataList);
 
   return (
     <>
@@ -17,7 +30,7 @@ export const Body = () => {
             onClick={() => {
               //Filter logic here
               const filterLists = fakeRestroDataList.filter(
-                (rest) => rest?.data?.avgRating > 4
+                (rest) => rest?.info?.avgRating > 4
               );
               setFakeRestroDataList(filterLists);
             }}
@@ -27,7 +40,7 @@ export const Body = () => {
         </div>
         <div className="restro-container">
           {fakeRestroDataList?.map((items) => (
-            <RestaurantCard restoData={items} key={items.data.id} />
+            <RestaurantCard restoData={items?.info} key={items?.info?.id} />
           ))}
         </div>
       </div>
