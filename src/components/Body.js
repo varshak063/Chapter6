@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { RestaurantCard } from "./RestaurantCard";
+import { Shimmer } from "./Shimmer";
 export const Body = () => {
   //State Variable in React
   const [fakeRestroDataList, setFakeRestroDataList] = useState([]);
+  const [filteredRestro, setFilteredRestro] = useState([]);
+
+  const [searchTextVariable, setSearchTextVariable] = useState("");
   useEffect(() => {
     fetchData();
   }, []);
@@ -16,15 +20,40 @@ export const Body = () => {
     setFakeRestroDataList(
       json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
+    setFilteredRestro(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
   };
-  console.log(fakeRestroDataList);
+  // console.log(fakeRestroDataList);
 
-  return (
+  return fakeRestroDataList?.length === 0 ? (
+    <Shimmer />
+  ) : (
     <>
       <div className="body">
         <div className="search">
-          {/* <input type="text" name="Search" placeholder="Search..." />
-          <button>Search</button> */}
+          <input
+            type="text"
+            name="Search"
+            placeholder="Search..."
+            value={searchTextVariable}
+            onChange={(e) => {
+              setSearchTextVariable(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              //filter restro card and update UI
+              const filterRestro = fakeRestroDataList?.filter((restroFilter) =>
+                restroFilter?.info?.name
+                  .toLowerCase()
+                  .includes(searchTextVariable.toLowerCase())
+              );
+              setFilteredRestro(filterRestro);
+            }}
+          >
+            Search
+          </button>
           <button
             className="filterBtn"
             onClick={() => {
@@ -32,14 +61,14 @@ export const Body = () => {
               const filterLists = fakeRestroDataList.filter(
                 (rest) => rest?.info?.avgRating > 4
               );
-              setFakeRestroDataList(filterLists);
+              setFilteredRestro(filterLists);
             }}
           >
             Top Rated Restro
           </button>
         </div>
         <div className="restro-container">
-          {fakeRestroDataList?.map((items) => (
+          {filteredRestro?.map((items) => (
             <RestaurantCard restoData={items?.info} key={items?.info?.id} />
           ))}
         </div>
